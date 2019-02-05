@@ -9,9 +9,13 @@ public class Body {
 	private Vector p;
 	private double m;
 	
-	public Body() {
-		
-	} // TODO constructora
+	public Body(String id, Vector v, Vector a, Vector p, double m) {
+		this.id = id; //inmutable no ?
+		this.v = new Vector(v);
+		this.a = new Vector(a);
+		this. p = new Vector(p);
+		this.m = m;
+	} // TODO constructora, puede que así??? (por lo que pone en el enunciado, probablemente haya que sobreescribirlo)
 	
 	public String getId() {
 		return id;
