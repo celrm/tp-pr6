@@ -3,11 +3,20 @@ package simulator.factories;
 import org.json.JSONObject;
 import java.lang.IllegalArgumentException;;
 
-public  class Builder<T> {
-public  T createInstance(JSONObject info) throws IllegalArgumentException{
+public abstract class Builder<T> {
+	protected String typeTag;
+	protected String desc;
 	
+public T createInstance(JSONObject info) throws IllegalArgumentException{
+	if (info.has("type")){
+		if (typeTag.equals(info.getString("type"))){
+			
+		}
+	}
 }
-public  JSONObject getBulilderInfo(){
-	
-}
+
+public  abstract JSONObject getBulilderInfo();
+
+protected abstract T createTheInstance(JSONObject jsonObject);
+
 }
