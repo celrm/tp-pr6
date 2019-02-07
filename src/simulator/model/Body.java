@@ -3,11 +3,11 @@ package simulator.model;
 import simulator.misc.Vector;
 
 public class Body {
-	private String id;
-	private Vector v;
-	private Vector a;
-	private Vector p;
-	private double m;
+	protected String id;
+	protected Vector v;
+	protected Vector a;
+	protected Vector p;
+	protected double m;
 	
 	public Body(String id, Vector v, Vector a, Vector p, double m) {
 		this.id = id; //inmutable no ?
@@ -48,10 +48,6 @@ public class Body {
 	void setPosition(Vector p) {
 		this.p = new Vector(p);
 	} // hace una copia de p y se la asigna al vector de posición.
-
-	void setMass(double mass) {
-		this.m = mass;
-	} // Celia
 	
 	void move(double t) {
 		p = p.plus(v.scale(t).plus(a.scale(t*t/2.0)));

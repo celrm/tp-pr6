@@ -17,10 +17,15 @@ public class MassLosingBody extends Body {
 	void move(double t) {
 		super.move(t);
 		c += t;
-
-		while(c >= lossFrequency) {
-			c -= lossFrequency;
-			super.setMass(getMass()*(1-lossFactor));
+		
+		if(c >= lossFrequency) {
+			c = 0.0;
+			m = m*(1-lossFactor);
 		}
-	}
+
+//		while(c >= lossFrequency) {
+//			c -= lossFrequency;
+//			m = m*(1-lossFactor);
+//		}
+	} // TODO convencer de que está mal
 }
