@@ -17,15 +17,10 @@ public class MassLosingBody extends Body {
 	void move(double t) {
 		super.move(t);
 		c += t;
-		//mi interpretación del enuciado (María,considerando que el setMass es legal):
-		if (c>= lossFrequency){
-			super.setMass(getMass()*(1-lossFactor));
-			c = 0.0;
-		}
-		
-		/*while(c >= lossFrequency) {
+
+		while(c >= lossFrequency) {
 			c -= lossFrequency;
 			super.setMass(getMass()*(1-lossFactor));
-		}*/
+		}
 	}
 }
