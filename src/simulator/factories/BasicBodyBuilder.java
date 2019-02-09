@@ -19,9 +19,16 @@ public class BasicBodyBuilder extends Builder <Body>{
 	}
 
 	@Override
-	public JSONObject getBulilderInfo() {
-		// TODO Auto-generated method stub
-		return null;
+	public JSONObject getBuilderInfo() {
+		JSONObject sol = new JSONObject();
+		sol.put("type", typeTag);
+		JSONObject otro = new JSONObject();
+		otro.put("id", "identificador");
+		otro.put("pos", "posicion");
+		otro.put("vel", "velocidad");
+		otro.put("mass", "masa");
+		sol.put("data", otro);
+		return sol;
 	}
 
 	@Override

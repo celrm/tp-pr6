@@ -16,9 +16,18 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 	}
 
 	@Override
-	public JSONObject getBulilderInfo() {
-		// TODO Auto-generated method stub
-		return null;
+	public JSONObject getBuilderInfo() {
+		JSONObject sol = new JSONObject();
+		sol.put("type", typeTag);
+		JSONObject otro = new JSONObject();
+		otro.put("id", "identificador");
+		otro.put("pos", "posicion");
+		otro.put("vel", "velocidad");
+		otro.put("mass", "masa");
+		otro.put("freq", "frecuencia");
+		otro.put("factor", "factor");
+		sol.put("data", otro);
+		return sol;
 	}
 
 	@Override

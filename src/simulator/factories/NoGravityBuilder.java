@@ -17,9 +17,11 @@ public class NoGravityBuilder extends Builder<GravityLaws>{
 	}
 
 	@Override
-	public JSONObject getBulilderInfo() {
-		// TODO Auto-generated method stub
-		return null;
+	public JSONObject getBuilderInfo() {
+		JSONObject sol = new JSONObject();
+		sol.put("type", typeTag);
+		sol.put("data", "empty");
+		return sol;
 	}
 
 	@Override

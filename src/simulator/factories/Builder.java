@@ -8,14 +8,14 @@ public abstract class Builder<T> {
 	protected String desc;
 	
 public T createInstance(JSONObject info) throws IllegalArgumentException{
-	if (info.has("type")){
-		if (typeTag.equals(info.getString("type"))){
-			
-		}
+	JSONObject referencia = getBuilderInfo();
+	if (referencia.keySet().equals(info.keySet()) && typeTag.equals(info.getString("type"))){
+		
 	}
+	else return null;
 }
 
-public  abstract JSONObject getBulilderInfo();
+public  abstract JSONObject getBuilderInfo();
 
 protected abstract T createTheInstance(JSONObject jsonObject);
 
