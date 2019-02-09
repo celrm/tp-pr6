@@ -9,11 +9,7 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 		typeTag = "mlb";
 		desc = "Mass Losing Body";
 	}
-	@Override
-	public Body createInstance(JSONObject info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public JSONObject getBuilderInfo() {

@@ -10,13 +10,6 @@ public class BasicBodyBuilder extends Builder <Body>{
 		typeTag = "basic";
 		desc = "Basic body";
 	}
-	@Override
-	public Body createInstance(JSONObject info) throws IllegalArgumentException {
-		if (info.has(typeTag)){
-			
-		}
-		return null;
-	}
 
 	@Override
 	public JSONObject getBuilderInfo() {
