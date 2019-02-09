@@ -1,7 +1,12 @@
 package simulator.factories;
 
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import simulator.misc.Vector;
 import simulator.model.Body;
 
 public class BasicBodyBuilder extends Builder <Body>{
@@ -25,9 +30,36 @@ public class BasicBodyBuilder extends Builder <Body>{
 	}
 
 	@Override
-	protected Body createTheInstance(JSONObject jsonObject) {
-		// TODO Auto-generated method stub
-		return null;
+	protected Body createTheInstance(JSONObject jsonObject) throws IllegalArgumentException {
+		double[] arr = {(0.0),(0.0)};
+		Vector a = new Vector(arr);
+		String id;
+		Double m;
+		Vector v = new Vector(a);
+		Vector p = new Vector(a);
+		try{
+			id =jsonObject.getString("id");
+			m = jsonObject.getDouble("mass");
+			JSONArray vel = jsonObject.getJSONArray("vel");
+			if (vel.length()!=2){
+				throw  new IllegalArgumentException();
+			}
+			arr[0] =vel.getDouble(0);
+			arr[1] = vel.getDouble(1);
+			v = new Vector(arr);
+			JSONArray pos = jsonObject.getJSONArray("pos");
+			if (pos.length()!=2){
+				throw  new IllegalArgumentException();
+			}
+			arr[0] =pos.getDouble(0);
+			arr[1] = pos.getDouble(1);
+			p = new Vector(arr);			
+		}
+		catch(JSONException e){
+			throw new IllegalArgumentException();
+		}
+
+		return new Body(id, v, a, p, m);
 	}
 
 }
