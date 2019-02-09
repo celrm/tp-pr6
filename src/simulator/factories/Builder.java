@@ -10,16 +10,19 @@ public abstract class Builder<T> {
 public T createInstance(JSONObject info) throws IllegalArgumentException{
 	
 	JSONObject referencia = getBuilderInfo();
-	if (referencia.keySet().equals(info.keySet()) && typeTag.equals(info.getString("type"))){
-		if (referencia.getJSONObject("data").keySet().equals(info.getJSONObject("data").keySet())){
-			T objeto = createTheInstance(info);
-			return objeto;
+	if (info.has("type") && typeTag.equals(info.getString("type"))){
+		if (info.has("data")){
+			if (referencia.getJSONObject("data").keySet().equals(info.getJSONObject("data").keySet())){
+				T objeto = createTheInstance(info);
+				return objeto;
+			}
+			else throw new IllegalArgumentException();
 		}
 		else{
 			throw new IllegalArgumentException();
 		}
 	}
-	else return null;
+	return null;
 }
 
 public  abstract JSONObject getBuilderInfo();

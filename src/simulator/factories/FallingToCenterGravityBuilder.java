@@ -17,6 +17,7 @@ public class FallingToCenterGravityBuilder extends Builder<GravityLaws>{
 		sol.put("type", typeTag);
 		JSONObject otro = new JSONObject();
 		sol.put("data", otro);
+		sol.put("desc", desc);
 		return sol;
 	}
 

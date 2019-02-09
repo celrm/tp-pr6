@@ -26,6 +26,7 @@ public class BasicBodyBuilder extends Builder <Body>{
 		otro.put("vel", "velocidad");
 		otro.put("mass", "masa");
 		sol.put("data", otro);
+		sol.put("desc", desc);
 		return sol;
 	}
 

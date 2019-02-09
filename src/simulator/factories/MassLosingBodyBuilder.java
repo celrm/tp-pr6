@@ -27,6 +27,7 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 		otro.put("freq", "frecuencia");
 		otro.put("factor", "factor");
 		sol.put("data", otro);
+		sol.put("desc", desc);
 		return sol;
 	}
 
