@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -28,8 +29,12 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 
 	@Override
 	public List<JSONObject> getInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<JSONObject> objetos = new ArrayList<>();
+		for (Builder<T> c : availableBuilders){
+			objetos.add(c.getBuilderInfo());
+		}
+		return objetos;
+		
 	}
 
 }
