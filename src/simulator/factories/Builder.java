@@ -16,7 +16,7 @@ public abstract class Builder<T> {
 		if (!referencia.getJSONObject("data").keySet().equals(info.getJSONObject("data").keySet()))
 			throw new IllegalArgumentException("no keySets");
 		
-		T objeto = createTheInstance(info);
+		T objeto = createTheInstance(info.getJSONObject("data"));
 		return objeto;
 	}
 	
