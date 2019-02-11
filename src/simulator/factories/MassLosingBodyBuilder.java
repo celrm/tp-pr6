@@ -59,7 +59,7 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 			return new MassLosingBody(id, v, a, p, m, lfa, lfr);
 		}
 		catch(JSONException e) {
-			throw new IllegalArgumentException("error while instancing: " + e.getMessage());
+			throw new IllegalArgumentException("Error while instancing MLB: " + e.getMessage());
 		}
 	}
 

@@ -54,7 +54,7 @@ public class BasicBodyBuilder extends Builder <Body>{
 			return new Body(id, v, a, p, m);
 		}
 		catch(JSONException e) {
-			throw new IllegalArgumentException("error while instancing: " + e.getMessage());
+			throw new IllegalArgumentException("Error while instancing BB: " + e.getMessage());
 		}
 	}
 }
