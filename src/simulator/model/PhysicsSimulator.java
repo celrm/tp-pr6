@@ -1,20 +1,53 @@
 package simulator.model;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public class PhysicsSimulator {
-	private double tRealPaso;
+	private double dt;
 	private GravityLaws ley;
+	
 	private double time;
-	private List<Body> cuerpos;
-	public PhysicsSimulator(double t_real, GravityLaws leyes) throws IllegalArgumentException{
-		if (t_real > 0.0 && leyes != null){
-			tRealPaso = t_real;
-			ley = leyes;
-			time = 0.0;
-			cuerpos = new ArrayList<>(); // vale no se usar listas
+	private ArrayList<Body> cuerpos;
+	
+	public PhysicsSimulator(double t_real, GravityLaws leyes) throws IllegalArgumentException {
+		if (t_real <= 0.0) throw new IllegalArgumentException("tiempo no valido");
+		if (leyes == null) throw new IllegalArgumentException("ley no valida");
+		
+		dt = t_real;
+		ley = leyes;		
+
+		time = 0.0;
+		cuerpos = new ArrayList<Body>(); // vale no se usar listas
+	}
+	public void advance() {
+		ley.apply(cuerpos);
+		for (Body body : cuerpos) {
+			body.move(dt);
 		}
-		else throw new IllegalArgumentException();
+		time += dt;
+	}
+	public void addBody(Body b) throws IllegalArgumentException {
+		boolean unico = true;
+		for (Body body : cuerpos) {
+			unico = unico && (body.id.equals(b.id));
+		}
+		if(!unico) throw new IllegalArgumentException("body already exists");
+		cuerpos.add(b);
+	}
+	public String toString() {
+		StringBuilder s = new StringBuilder();
+		s.append("{ \"time\": ");
+		s.append(time);
+		s.append(", \"bodies\": [");
+		Iterator<Body> iter = cuerpos.iterator();
+		if(!cuerpos.isEmpty())	// separo el primero para la ,
+			s.append(iter.next());
+	    while (iter.hasNext()) {
+	    	s.append(", ");
+	    	s.append(iter.next());
+	    }
+		s.append("] }");
+		return s.toString();
 	}
 }
