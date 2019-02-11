@@ -11,6 +11,13 @@ package simulator.launcher;
  *
  */
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -20,53 +27,67 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.control.Controller;
+import simulator.factories.BasicBodyBuilder;
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
 import simulator.factories.Factory;
+import simulator.factories.FallingToCenterGravityBuilder;
+import simulator.factories.MassLosingBodyBuilder;
+import simulator.factories.NewtonUniversalGravitationBuilder;
+import simulator.factories.NoGravityBuilder;
 import simulator.model.Body;
 import simulator.model.GravityLaws;
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
 	// default values for some parameters
-	//
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static int _stepsDefaultValue = 150;
 
 	// some attributes to stores values corresponding to command-line parameters
-	//
 	private static Double _dtime = null;
 	private static String _inFile = null;
+	private static String _outFile = null;
+	private static int _steps = _stepsDefaultValue;
 	private static JSONObject _gravityLawsInfo = null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
 	private static Factory<GravityLaws> _gravityLawsFactory;
 
-	private static void init() {
-		// initialize the bodies factory
-		// ...
-
-		// initialize the gravity laws factory
-		// ...
+	private static void init() {	
+		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+		bodyBuilders.add(new BasicBodyBuilder());
+		bodyBuilders.add(new MassLosingBodyBuilder());
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);
+		
+		ArrayList<Builder<GravityLaws>> lawBuilders = new ArrayList<>();
+		lawBuilders.add(new NewtonUniversalGravitationBuilder());
+		lawBuilders.add(new FallingToCenterGravityBuilder());
+		lawBuilders.add(new NoGravityBuilder());
+		_gravityLawsFactory = new BuilderBasedFactory<GravityLaws>(lawBuilders);
 	}
 
 	private static void parseArgs(String[] args) {
 
 		// define the valid command line options
-		//
 		Options cmdLineOptions = buildOptions();
 
 		// parse the command line as provided in args
-		//
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
+			parseOutFileOption(line); // Celia
+			parseStepsOption(line); // Celia
 			parseDeltaTimeOption(line);
 			parseGravityLawsOption(line);
 
 			// if there are some remaining arguments, then something wrong is
 			// provided in the command line!
-			//
 			String[] remaining = line.getArgs();
 			if (remaining.length > 0) {
 				String error = "Illegal arguments:";
@@ -90,6 +111,18 @@ public class Main {
 
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
+
+		// output file // Celia
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg()
+				.desc("Output file, where output is written. Default value: "
+						+ "the standard output.")
+				.build());
+		
+		// steps // Celia
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
+				.desc("An integer representing the number of simulation steps. Default value: "
+						+ _stepsDefaultValue + ".")
+				.build());
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -135,6 +168,18 @@ public class Main {
 		}
 	}
 
+	private static void parseStepsOption(CommandLine line) throws ParseException {
+		try {
+			_steps = Integer.parseInt(line.getOptionValue("s"));
+		} catch(NumberFormatException e) {
+			throw new ParseException("Wrong steps");
+		}
+	}
+
+	private static void parseOutFileOption(CommandLine line) throws ParseException {
+		_outFile = line.getOptionValue("o");
+	}
+
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
 		String dt = line.getOptionValue("dt", _dtimeDefaultValue.toString());
 		try {
@@ -170,6 +215,14 @@ public class Main {
 
 	private static void startBatchMode() throws Exception {
 		// create and connect components, then start the simulator
+		InputStream is = new FileInputStream(new File(_inFile));
+		OutputStream os = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
+		
+		PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
+		Controller cont = new Controller(sim, _bodyFactory);
+		
+		cont.loadBodies(is);
+		cont.run(_steps, os);
 	}
 
 	private static void start(String[] args) throws Exception {
