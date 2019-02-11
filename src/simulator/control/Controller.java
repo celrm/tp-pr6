@@ -2,6 +2,7 @@ package simulator.control;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,7 +39,8 @@ public class Controller {
 			array.put(simulador.toString());
 		}
 		estados.put("states", array);
-		System.out.println(estados);
+		PrintStream p = new PrintStream(out);
+		p.println(estados);
 	}
 	
 }
