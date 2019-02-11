@@ -21,12 +21,24 @@ public class Controller {
 	public void loadBodies(InputStream in){
 		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
 		JSONArray array = jsonInput.getJSONArray("bodies");
+		try{
 		for (int i = 0; i < array.length(); i++) {
-			simulador.addBody(factoria.createInstance(array.getJSONObject(i));
+			simulador.addBody(factoria.createInstance(array.getJSONObject(i)));
+		}
+		}
+		catch(IllegalArgumentException e){
+			System.out.println(e.getMessage());
 		}
 	}
 	public void run(int n, OutputStream out){
-		
+		JSONObject estados = new JSONObject();
+		JSONArray array = new JSONArray();
+		for (int i= 0; i < n;++i){
+			simulador.advance();
+			array.put(simulador.toString());
+		}
+		estados.put("states", array);
+		System.out.println(estados);
 	}
 	
 }
