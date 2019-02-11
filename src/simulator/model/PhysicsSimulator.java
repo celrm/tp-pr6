@@ -18,7 +18,7 @@ public class PhysicsSimulator {
 		ley = leyes;		
 
 		time = 0.0;
-		cuerpos = new ArrayList<Body>(); // vale no se usar listas
+		cuerpos = new ArrayList<Body>();
 	}
 	public void advance() {
 		ley.apply(cuerpos);
@@ -32,7 +32,7 @@ public class PhysicsSimulator {
 		for (Body body : cuerpos) {
 			unico = unico && (body.id.equals(b.id));
 		}
-		if(!unico) throw new IllegalArgumentException("body already exists");
+		if(!unico) throw new IllegalArgumentException("Body " + b.id + " already exists");
 		cuerpos.add(b);
 	}
 	public String toString() {

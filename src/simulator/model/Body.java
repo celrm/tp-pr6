@@ -15,8 +15,8 @@ public class Body {
 		this.a = new Vector(a);
 		this. p = new Vector(p);
 		this.m = m;
-	} // TODO constructora, puede que así??? (por lo que pone en el enunciado, probablemente haya que sobreescribirlo)
-	
+	} 
+
 	public String getId() {
 		return id;
 	} // devuelve el identificador del cuerpo.

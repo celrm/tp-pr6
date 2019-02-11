@@ -37,7 +37,11 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 			String id =jsonObject.getString("id");
 			Double m = jsonObject.getDouble("mass");
 			Double lfa = jsonObject.getDouble("factor");
+			if (0>=lfa || lfa >= 1)
+				throw new IllegalArgumentException("wrong lossFactor");
 			Double lfr = jsonObject.getDouble("freq");
+			if (0>=lfr)
+				throw new IllegalArgumentException("wrong lossFrequency");
 
 			Vector a = new Vector(2);
 			double[] arr = new double[a.dim()];

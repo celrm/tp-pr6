@@ -22,13 +22,12 @@ public class Controller {
 	public void loadBodies(InputStream in){
 		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
 		JSONArray array = jsonInput.getJSONArray("bodies");
-		try{
-		for (int i = 0; i < array.length(); i++) {
-			simulador.addBody(factoria.createInstance(array.getJSONObject(i)));
-		}
+		try {
+			for (int i = 0; i < array.length(); i++)
+				simulador.addBody(factoria.createInstance(array.getJSONObject(i)));
 		}
 		catch(IllegalArgumentException e){
-			System.out.println(e.getMessage());
+			System.err.println("Illegal argument: " + e.getMessage());
 		}
 	}
 	public void run(int n, OutputStream out){

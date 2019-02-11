@@ -8,9 +8,7 @@ public class NewtonUniversalGravitation implements GravityLaws {
 	
 	public static final double G = 6.67E-11;
 	
-	public NewtonUniversalGravitation() {
-	
-	}
+	public NewtonUniversalGravitation() {}
 
 	@Override
 	public void apply(List<Body> bodies) {
