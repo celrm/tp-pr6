@@ -1,14 +1,14 @@
 package simulator.launcher;
 
 /*
- * Examples of command-line parameters:
- * 
- *  -h
- *  -i resources/examples/ex4.4body.txt -s 100
- *  -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100
- *  -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100 -gl ftcg
- *  -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100 -gl nlug
- *
+ Examples of command-line parameters:
+ 
+ -h
+ -i resources/examples/ex4.4body.txt -s 100
+ -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100
+ -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100 -gl ftcg
+ -i resources/examples/ex4.4body.txt -o resources/examples/ex4.4body.out -s 100 -gl nlug
+ 
  */
 
 import java.io.File;

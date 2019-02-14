@@ -3,6 +3,9 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class PhysicsSimulator {
 	private double dt;
 	private GravityLaws ley;
@@ -36,18 +39,42 @@ public class PhysicsSimulator {
 		cuerpos.add(b);
 	}
 	public String toString() {
-		StringBuilder s = new StringBuilder();
-		s.append("{ \"time\": ");
-		s.append(time);
-		s.append(", \"bodies\": [");
+		JSONObject s = new JSONObject();
+		s.put("time", time);
+		JSONArray bods = new JSONArray();
 		Iterator<Body> iter = cuerpos.iterator();
-		if(!cuerpos.isEmpty())	// separo el primero para la ,
-			s.append(iter.next());
-	    while (iter.hasNext()) {
-	    	s.append(", ");
-	    	s.append(iter.next());
+		while (iter.hasNext()) {
+		 bods.put(iter.next().toString());
 	    }
-		s.append("] }");
-		return s.toString();
+		s.put("bodies", bods);
+		String str = s.toString();
+		System.out.println(str);
+		return str;
+
+//		StringBuilder s = new StringBuilder();
+//		s.append("{ \"time\": ");
+//		s.append(time);
+//		s.append(", \"bodies\": [");
+//		Iterator<Body> iter = cuerpos.iterator();
+//		if(!cuerpos.isEmpty())	// separo el primero para la ,
+//			s.append(iter.next());
+//	    while (iter.hasNext()) {
+//	    	s.append(", ");
+//	    	s.append(iter.next());
+//	    }
+//		s.append("] }");
+//		return s.toString();
+	}
+
+	public JSONObject toObject() {
+		JSONObject s = new JSONObject();
+		s.put("time", time);
+		JSONArray bods = new JSONArray();
+		Iterator<Body> iter = cuerpos.iterator();
+		while (iter.hasNext()) {
+		 bods.put(iter.next().toObject());
+	    }
+		s.put("bodies", bods);
+		return s;
 	}
 }
