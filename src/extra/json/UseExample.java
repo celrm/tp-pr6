@@ -156,11 +156,11 @@ public class UseExample {
 		System.out.println("=======================");
 		System.out.println();
 		
-		System.out.println("Are joFromString and joFromFile1 euqal? " + checkSemanticEquality(joFromString, joFromFile1));
+		System.out.println("Are joFromString and joFromFile1 equal? " + checkSemanticEquality(joFromString, joFromFile1));
 		System.out
-				.println("Are joFromString and joFromFile2 euqal? " + checkSemanticEquality(joFromString, joFromFile2));
+				.println("Are joFromString and joFromFile2 equal? " + checkSemanticEquality(joFromString, joFromFile2));
 		System.out
-				.println("Are joFromString and joFromFile3 euqal? " + checkSemanticEquality(joFromString, joFromFile3));
+				.println("Are joFromString and joFromFile3 equal? " + checkSemanticEquality(joFromString, joFromFile3));
 		System.out.println();
 
 		// Example 3: create JSON structure

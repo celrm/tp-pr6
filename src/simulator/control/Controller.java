@@ -34,8 +34,8 @@ public class Controller {
 		JSONObject estados = new JSONObject();
 		JSONArray array = new JSONArray();
 		for (int i= 0; i < n;++i){
+			array.put(simulador.toObject());
 			simulador.advance();
-			array.put(simulador.toString());
 		}
 		estados.put("states", array);
 		PrintStream p = new PrintStream(out);
