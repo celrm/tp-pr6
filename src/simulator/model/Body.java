@@ -56,37 +56,27 @@ public class Body {
 	} // mueve el cuerpo durante t segundos utilizando los atributos del mismo. 
 
 	public String toString() {
-		JSONObject s = new JSONObject();
-		s.put("id", id);
-		s.put("mass", m);
-		s.put("pos", p);
-		s.put("vel", v);
-		s.put("acc", a);
-		String str = s.toString();
-//		System.out.println(str);
-		return str;
-
-//		StringBuilder s = new StringBuilder();
-//		s.append("{ \"id\": ");
-//		s.append(id);
-//		s.append(", \"mass\": ");
-//		s.append(m);
-//		s.append(", \"pos\": ");
-//		s.append(p);
-//		s.append(", \"vel\": ");
-//		s.append(v);
-//		s.append(", \"acc\": ");
-//		s.append(a);
-//		s.append(" }");
-//		return s.toString();
+		StringBuilder s = new StringBuilder();
+		s.append("{ \"id\": \"");
+		s.append(id);
+		s.append("\", \"mass\": ");
+		s.append(m);
+		s.append(", \"pos\": ");
+		s.append(p);
+		s.append(", \"vel\": ");
+		s.append(v);
+		s.append(", \"acc\": ");
+		s.append(a);
+		s.append(" }");
+		return s.toString();
 	}
-	public JSONObject toObject() {
-		JSONObject s = new JSONObject();
-		s.put("id", id);
-		s.put("mass", m);
-		s.put("pos", p);
-		s.put("vel", v);
-		s.put("acc", a);
-		return s;
-	}
+//	public JSONObject toObject() {
+//		JSONObject s = new JSONObject();
+//		s.put("id", id);
+//		s.put("mass", m);
+//		s.put("pos", p);
+//		s.put("vel", v);
+//		s.put("acc", a);
+//		return s;
+//	}
 }
