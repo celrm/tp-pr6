@@ -43,16 +43,16 @@ public class Controller {
 //		p.println(estados);
 //		
 		StringBuilder s = new StringBuilder();
-		s.append("{ \"states\": [");
+		s.append("{ \"states\": \n[ ");
 		
 		if(n>0)
-			s.append(simulador.toString());
+			s.append(simulador);
 		for (int i= 1; i < n;++i){
-	    	s.append(", ");
-			s.append(simulador.toString());
 			simulador.advance();
+	    	s.append("\n, ");
+			s.append(simulador);
 		}	    
-		s.append("] }");
+		s.append("\n] }");
 		PrintStream p = new PrintStream(out);
 		p.println(s);
 	}

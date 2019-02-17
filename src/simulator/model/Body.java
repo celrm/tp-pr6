@@ -59,15 +59,15 @@ public class Body {
 		StringBuilder s = new StringBuilder();
 		s.append("{ \"id\": \"");
 		s.append(id);
-		s.append("\", \"mass\": ");
+		s.append("\"\n\t\t, \"mass\": ");
 		s.append(m);
-		s.append(", \"pos\": ");
+		s.append("\n\t\t, \"pos\": ");
 		s.append(p);
-		s.append(", \"vel\": ");
+		s.append("\n\t\t, \"vel\": ");
 		s.append(v);
-		s.append(", \"acc\": ");
+		s.append("\n\t\t, \"acc\": ");
 		s.append(a);
-		s.append(" }");
+		s.append("\n\t\t}");
 		return s.toString();
 	}
 //	public JSONObject toObject() {

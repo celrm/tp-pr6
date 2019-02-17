@@ -42,15 +42,15 @@ public class PhysicsSimulator {
 		StringBuilder s = new StringBuilder();
 		s.append("{ \"time\": ");
 		s.append(time);
-		s.append(", \"bodies\": [");
+		s.append("\n\t, \"bodies\": \n\t\t[ ");
 		Iterator<Body> iter = cuerpos.iterator();
 		if(!cuerpos.isEmpty())	// separo el primero para la ,
 			s.append(iter.next());
 	    while (iter.hasNext()) {
-	    	s.append(", ");
+	    	s.append("\n\t\t, ");
 	    	s.append(iter.next());
 	    }
-		s.append("] }");
+		s.append("\n\t\t]\n\t}");
 		return s.toString();
 	}
 //	public JSONObject toObject() {
