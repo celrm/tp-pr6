@@ -3,9 +3,6 @@ package simulator.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class PhysicsSimulator {
 	private double dt;
 	private GravityLaws ley;

@@ -1,15 +1,22 @@
 package simulator.factories;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONObject;
 
 public class BuilderBasedFactory<T> implements Factory<T>{
+	private ArrayList<JSONObject> jsonList;
 	private List<Builder<T>> availableBuilders;
 	
 	public BuilderBasedFactory(List<Builder<T>> builders){
 		availableBuilders = builders;
+		ArrayList<JSONObject> objetos = new ArrayList<>();
+		for (Builder<T> c : builders) {
+			objetos.add(c.getBuilderInfo());
+		}
+		jsonList = objetos;
 	}
 	
 	@Override
@@ -28,12 +35,9 @@ public class BuilderBasedFactory<T> implements Factory<T>{
 
 	@Override
 	public List<JSONObject> getInfo() {
-		ArrayList<JSONObject> objetos = new ArrayList<>();
-		for (Builder<T> c : availableBuilders) {
-			objetos.add(c.getBuilderInfo());
-		}
-		return objetos;
-		
+		List<JSONObject> jsonListRO = Collections
+					.unmodifiableList(jsonList);
+		return jsonListRO;
 	}
 
 }

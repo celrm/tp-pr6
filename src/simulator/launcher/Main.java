@@ -50,14 +50,14 @@ public class Main {
 	private static Double _dtime = null;
 	private static String _inFile = null;
 	private static String _outFile = null;
-	private static int _steps = _stepsDefaultValue;
+	private static int _steps = _stepsDefaultValue; // El resto tiene null pero como este es int no
 	private static JSONObject _gravityLawsInfo = null;
 
 	// factories
 	private static Factory<Body> _bodyFactory;
 	private static Factory<GravityLaws> _gravityLawsFactory;
 
-	private static void init() {	
+	private static void init() {
 		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
 		bodyBuilders.add(new BasicBodyBuilder());
 		bodyBuilders.add(new MassLosingBodyBuilder());
@@ -107,10 +107,14 @@ public class Main {
 		Options cmdLineOptions = new Options();
 
 		// help
-		cmdLineOptions.addOption(Option.builder("h").longOpt("help").desc("Print this message.").build());
+		cmdLineOptions.addOption(Option.builder("h").longOpt("help")
+				.desc("Print this message.")
+				.build());
 
 		// input file
-		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
+		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg()
+				.desc("Bodies JSON input file.")
+				.build());
 
 		// output file // Celia
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg()
@@ -131,16 +135,15 @@ public class Main {
 				.build());
 
 		// gravity laws -- there is a workaround to make it work even when
-		// _gravityLawsFactory is null. 
+		// _gravityLawsFactory is null.
 		//
 		String gravityLawsValues = "N/A";
 		String defaultGravityLawsValue = "N/A";
 		if (_gravityLawsFactory != null) {
 			gravityLawsValues = "";
 			for (JSONObject fe : _gravityLawsFactory.getInfo()) {
-				if (gravityLawsValues.length() > 0) {
+				if (gravityLawsValues.length() > 0)
 					gravityLawsValues = gravityLawsValues + ", ";
-				}
 				gravityLawsValues = gravityLawsValues + "'" + fe.getString("type") + "' (" + fe.getString("desc") + ")";
 			}
 			defaultGravityLawsValue = _gravityLawsFactory.getInfo().get(0).getString("type");

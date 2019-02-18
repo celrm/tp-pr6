@@ -57,4 +57,5 @@ public class BasicBodyBuilder extends Builder <Body>{
 			throw new IllegalArgumentException("Error while instancing BB: " + e.getMessage());
 		}
 	}
+
 }
