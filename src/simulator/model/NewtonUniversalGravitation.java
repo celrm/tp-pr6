@@ -12,27 +12,44 @@ public class NewtonUniversalGravitation implements GravityLaws {
 
 	@Override
 	public void apply(List<Body> bodies) {
-		for(Body bi : bodies) {
-			Vector pi = bi.getPosition();
-			Vector vi = bi.getVelocity();
-			Vector ai = bi.getAcceleration();
-			
-			bi.setAcceleration(new Vector(ai.dim())); // ai = 0
+		for(Body bi : bodies) {			
+			bi.setAcceleration(new Vector(bi.getAcceleration().dim())); // ai = 0
 			
 			if(bi.getMass() == 0.0)
-				bi.setVelocity(new Vector(vi.dim())); // vi = 0
+				bi.setVelocity(new Vector(bi.getVelocity().dim())); // vi = 0
 			
 			else for(Body bj : bodies) {				
 				if(bi != bj) { // por referencia
 					Vector pj = bj.getPosition();
 					
-					double r = pj.distanceTo(pi); // |pj-pi|
+					double r = pj.distanceTo(bi.getPosition()); // |pj-pi|
 					double fij = G*bj.getMass()/(r*r); // G*mj/r^2
-					Vector aux = pj.minus(pi).direction().scale(fij);
-					bi.setAcceleration(ai.plus(aux));
+					Vector aux = pj.minus(bi.getPosition()).direction().scale(fij);
+					bi.setAcceleration(bi.getAcceleration().plus(aux));
 				}
 			}
 		}
+//		for(Body bi : bodies) {
+//			Vector pi = bi.getPosition();
+//			Vector vi = bi.getVelocity();
+//			Vector ai = bi.getAcceleration();
+//			
+//			bi.setAcceleration(new Vector(ai.dim())); // ai = 0
+//			
+//			if(bi.getMass() == 0.0)
+//				bi.setVelocity(new Vector(vi.dim())); // vi = 0
+//			
+//			else for(Body bj : bodies) {				
+//				if(bi != bj) { // por referencia
+//					Vector pj = bj.getPosition();
+//					
+//					double r = pj.distanceTo(pi); // |pj-pi|
+//					double fij = G*bj.getMass()/(r*r); // G*mj/r^2
+//					Vector aux = pj.minus(pi).direction().scale(fij);
+//					bi.setAcceleration(ai.plus(aux));
+//				}
+//			}
+//		}
 		
 	}
 }
