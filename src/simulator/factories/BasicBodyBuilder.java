@@ -15,17 +15,13 @@ public class BasicBodyBuilder extends Builder <Body>{
 	}
 
 	@Override
-	public JSONObject getBuilderInfo() {
-		JSONObject sol = new JSONObject();
-		sol.put("type", typeTag);
+	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		data.put("id", "identificador");
 		data.put("pos", "posicion");
 		data.put("vel", "velocidad");
 		data.put("mass", "masa");
-		sol.put("data", data);
-		sol.put("desc", desc);
-		return sol;
+		return data;
 	}
 
 	@Override
@@ -35,21 +31,16 @@ public class BasicBodyBuilder extends Builder <Body>{
 			Double m = jsonObject.getDouble("mass");			
 
 			Vector a = new Vector(2);
-			double[] arr = new double[a.dim()];
 			
 			JSONArray vel = jsonObject.getJSONArray("vel");
 			if (vel.length()!=a.dim())
-				throw new IllegalArgumentException("wrong v dim");
-			for(int i = 0; i < a.dim(); ++i)
-				arr[i] = vel.getDouble(i);
-			Vector v = new Vector(arr);
+				throw new IllegalArgumentException("wrong v dim");			
+			Vector v = new Vector(jsonArrayTodoubleArray(vel));			
 			
 			JSONArray pos = jsonObject.getJSONArray("pos");
 			if (pos.length()!=a.dim())
-				throw new IllegalArgumentException("wrong p dim");
-			for(int i = 0; i < a.dim(); ++i)
-				arr[i] = pos.getDouble(i);
-			Vector p = new Vector(arr);
+				throw new IllegalArgumentException("wrong p dim");			
+			Vector p = new Vector(jsonArrayTodoubleArray(pos));
 
 			return new Body(id, v, a, p, m);
 		}

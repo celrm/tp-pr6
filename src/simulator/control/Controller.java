@@ -31,6 +31,9 @@ public class Controller {
 			System.err.println("Illegal argument: " + e.getMessage());
 		}
 	}
+	
+	public void run(int n) {
+	}
 
 	public void run(int n, OutputStream out){
 //		JSONObject estados = new JSONObject();

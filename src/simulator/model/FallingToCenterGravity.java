@@ -4,9 +4,7 @@ import java.util.List;
 
 public class FallingToCenterGravity implements GravityLaws {
 	
-	public FallingToCenterGravity() {
-		
-	}
+	public FallingToCenterGravity() {}
 
 	@Override
 	public void apply(List<Body> bodies) {
@@ -14,6 +12,5 @@ public class FallingToCenterGravity implements GravityLaws {
 		for(Body bi : bodies) {
 			bi.setAcceleration(bi.getPosition().direction().scale(-g));
 		}
-		
 	}
 }

@@ -16,19 +16,15 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 	}
 
 	@Override
-	public JSONObject getBuilderInfo() {
-		JSONObject sol = new JSONObject();
-		sol.put("type", typeTag);
-		JSONObject otro = new JSONObject();
-		otro.put("id", "identificador");
-		otro.put("pos", "posicion");
-		otro.put("vel", "velocidad");
-		otro.put("mass", "masa");
-		otro.put("freq", "frecuencia");
-		otro.put("factor", "factor");
-		sol.put("data", otro);
-		sol.put("desc", desc);
-		return sol;
+	protected JSONObject createData() {
+		JSONObject data = new JSONObject();
+		data.put("id", "identificador");
+		data.put("pos", "posicion");
+		data.put("vel", "velocidad");
+		data.put("mass", "masa");
+		data.put("freq", "frecuencia");
+		data.put("factor", "factor");
+		return data;
 	}
 
 	@Override
@@ -36,29 +32,26 @@ public class MassLosingBodyBuilder extends Builder<Body> {
 		try {
 			String id =jsonObject.getString("id");
 			Double m = jsonObject.getDouble("mass");
+			
 			Double lfa = jsonObject.getDouble("factor");
 			if (0>=lfa || lfa >= 1)
 				throw new IllegalArgumentException("wrong lossFactor");
+			
 			Double lfr = jsonObject.getDouble("freq");
 			if (0>=lfr)
 				throw new IllegalArgumentException("wrong lossFrequency");
 
 			Vector a = new Vector(2);
-			double[] arr = new double[a.dim()];
 			
 			JSONArray vel = jsonObject.getJSONArray("vel");
 			if (vel.length()!=a.dim())
-				throw new IllegalArgumentException("wrong v dim");
-			for(int i = 0; i < a.dim(); ++i)
-				arr[i] = vel.getDouble(i);
-			Vector v = new Vector(arr);
+				throw new IllegalArgumentException("wrong v dim");			
+			Vector v = new Vector(jsonArrayTodoubleArray(vel));			
 			
 			JSONArray pos = jsonObject.getJSONArray("pos");
 			if (pos.length()!=a.dim())
-				throw new IllegalArgumentException("wrong p dim");
-			for(int i = 0; i < a.dim(); ++i)
-				arr[i] = pos.getDouble(i);
-			Vector p = new Vector(arr);
+				throw new IllegalArgumentException("wrong p dim");			
+			Vector p = new Vector(jsonArrayTodoubleArray(pos));			
 
 			return new MassLosingBody(id, v, a, p, m, lfa, lfr);
 		}

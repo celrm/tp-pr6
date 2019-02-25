@@ -13,9 +13,9 @@ public class Body {
 		this.id = id; //inmutable no ?
 		this.v = new Vector(v);
 		this.a = new Vector(a);
-		this. p = new Vector(p);
+		this.p = new Vector(p);
 		this.m = m;
-	} 
+	}
 
 	public String getId() {
 		return id;
@@ -33,7 +33,7 @@ public class Body {
 		return new Vector(p);
 	} // devuelve una copia del vector de posición.
 	
-	double getMass() {
+	public double getMass() {
 		return m;
 	} // devuelve la masa del cuerpo.
 	
@@ -45,9 +45,9 @@ public class Body {
 		this.a = new Vector (a);
 	} // hace una copia de a y se la asigna al vector de aceleración.
 	
-	void setPosition(Vector p) {
-		this.p = new Vector(p);
-	} // hace una copia de p y se la asigna al vector de posición.
+//	void setPosition(Vector p) {
+//		this.p = new Vector(p);
+//	} // hace una copia de p y se la asigna al vector de posición.
 	
 	void move(double t) {
 		p = p.plus(v.scale(t).plus(a.scale(t*t/2.0)));
