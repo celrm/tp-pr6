@@ -221,11 +221,15 @@ public class Main {
 		InputStream is = new FileInputStream(new File(_inFile));
 		OutputStream os = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
 		
-		PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
-		Controller cont = new Controller(sim, _bodyFactory);
+		try {
+			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
+			Controller cont = new Controller(sim, _bodyFactory);
 		
-		cont.loadBodies(is);
-		cont.run(_steps, os);
+			cont.loadBodies(is);
+			cont.run(_steps, os);
+		} catch (IllegalArgumentException e){
+			System.err.println("Illegal argument: " + e.getMessage());
+		}
 	}
 
 	private static void start(String[] args) throws Exception {
