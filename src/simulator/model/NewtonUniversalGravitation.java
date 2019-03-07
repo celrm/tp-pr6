@@ -11,7 +11,7 @@ public class NewtonUniversalGravitation implements GravityLaws {
 	public NewtonUniversalGravitation() {}
 
 	@Override
-	public void apply(List<Body> bodies) {
+	public void apply(List<Body> bodies) { 
 		for(Body bi : bodies) {			
 			bi.setAcceleration(new Vector(bi.getAcceleration().dim())); // ai = 0
 			
