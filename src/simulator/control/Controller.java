@@ -52,8 +52,9 @@ public class Controller {
 			s.append(simulador);
 		}	    
 		s.append("\n] }");
-		PrintStream p = new PrintStream(out);
+		PrintStream p = (out==null) ? null :new PrintStream(out);
 		p.println(s);
+		p.close();
 	}
 	
 }
