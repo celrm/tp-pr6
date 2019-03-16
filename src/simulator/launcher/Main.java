@@ -18,6 +18,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -39,17 +41,20 @@ import simulator.factories.NoGravityBuilder;
 import simulator.model.Body;
 import simulator.model.GravityLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
 	// default values for some parameters
 	private final static Double _dtimeDefaultValue = 2500.0;
+	private final static String _modeDefaultValue = "batch";
 	private final static int _stepsDefaultValue = 150;
 
 	// some attributes to stores values corresponding to command-line parameters
 	private static Double _dtime = null;
 	private static String _inFile = null;
 	private static String _outFile = null;
+	private static String _mode = null;
 	private static int _steps = _stepsDefaultValue; // El resto tiene null pero como este es int no
 	private static JSONObject _gravityLawsInfo = null;
 
@@ -79,6 +84,7 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
+			parseModeOption(line); // Celia
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line); // Celia
@@ -105,6 +111,13 @@ public class Main {
 
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
+
+		// batch mode
+		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+				.desc("Execution Mode. Possible values: ’batch’ (Batch mode), "
+						+ "’gui’ (Graphical User Interfacemode). Default value: "
+						+ _modeDefaultValue + ".")
+				.build());
 
 		// help
 		cmdLineOptions.addOption(Option.builder("h").longOpt("help")
@@ -156,6 +169,16 @@ public class Main {
 		return cmdLineOptions;
 	}
 
+	private static void parseModeOption(CommandLine line) throws ParseException {
+		String mode = line.getOptionValue("m", _modeDefaultValue.toString());
+		switch(mode) {
+		case "batch": 
+		case "gui": ; break;
+		default: throw new ParseException("Invalid mode: " + mode);
+		}
+		_mode = mode;
+	}
+
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -166,7 +189,7 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		if (_inFile == null) {
+		if (_inFile == null && _mode.equals("batch")) {
 			throw new ParseException("An input file of bodies is required");
 		}
 	}
@@ -223,7 +246,7 @@ public class Main {
 		
 		try {
 			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
-			Controller cont = new Controller(sim, _bodyFactory);
+			Controller cont = new Controller(sim, _bodyFactory, _gravityLawsFactory);
 		
 			cont.loadBodies(is);
 			cont.run(_steps, os);
@@ -232,9 +255,35 @@ public class Main {
 		}
 	}
 
+
+	private static void startGUIMode() throws Exception {
+		// create and connect components, then start the simulator
+//		OutputStream os = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
+		try {
+			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
+			Controller cont = new Controller(sim, _bodyFactory, _gravityLawsFactory);
+			
+			if(_inFile != null) cont.loadBodies(new FileInputStream(new File(_inFile)));
+			
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					new MainWindow(cont);
+				}
+			});
+			
+		} catch (IllegalArgumentException e){
+			System.err.println("Illegal argument: " + e.getMessage());
+		}
+	}
+
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		
+		switch(_mode) {
+		case "batch": startBatchMode(); break;
+		case "gui": startGUIMode(); break;
+		}	
 	}
 
 	public static void main(String[] args) {

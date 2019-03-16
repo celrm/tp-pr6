@@ -13,4 +13,8 @@ public class FallingToCenterGravity implements GravityLaws {
 			bi.setAcceleration(bi.getPosition().direction().scale(-g));
 		}
 	}
+	
+	public String toString() {
+		return "Descripcion de FallingToCenterGravity";
+	}
 }
