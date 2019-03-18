@@ -20,7 +20,7 @@ public class ToolBarExample extends JFrame implements ActionListener {
 	private void initGUI() {
 
 		JPanel mainPanel = new JPanel(new BorderLayout(5, 5));
-
+		
 		textArea = new JTextArea(5, 30);
 		textArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textArea);
@@ -51,14 +51,14 @@ public class ToolBarExample extends JFrame implements ActionListener {
 		list.setSelectedIndex(0);
 		list.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				textArea.append("Has seleccionado la opción: " + list.getSelectedItem() + "\n");;
+				textArea.append("Has seleccionado la opciï¿½n: " + list.getSelectedItem() + "\n");;
 			} 
 		});
 		list.setMaximumSize(new Dimension(150, 60));
 		barra.add(list);
 		barra.addSeparator();
 		
-		//con lo que metemos aquí, en este ejmplo no hacemos nada en concreto
+		//con lo que metemos aquï¿½, en este ejmplo no hacemos nada en concreto
 		JTextField text = new JTextField(8);
 		text.setMaximumSize(new Dimension(150, 60));
 		barra.add(text);

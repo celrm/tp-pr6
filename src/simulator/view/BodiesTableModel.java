@@ -10,11 +10,10 @@ import simulator.model.Body;
 import simulator.model.SimulatorObserver;
 
 public class BodiesTableModel extends AbstractTableModel implements SimulatorObserver {
-	// ...
 	private List<Body> _bodies;
 	BodiesTableModel(Controller ctrl) {
-	_bodies = new ArrayList<>();
-	ctrl.addObserver(this);
+		_bodies = new ArrayList<>();
+		ctrl.addObserver(this);
 	}
 	
 	@Override
