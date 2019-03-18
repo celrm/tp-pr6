@@ -84,7 +84,7 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
-			parseModeOption(line); // Celia
+			parseModeOption(line); // Celia (importante antes que infile)
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
 			parseOutFileOption(line); // Celia
@@ -115,7 +115,7 @@ public class Main {
 		// batch mode
 		cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
 				.desc("Execution Mode. Possible values: ’batch’ (Batch mode), "
-						+ "’gui’ (Graphical User Interfacemode). Default value: "
+						+ "’gui’ (Graphical User Interface mode). Default value: "
 						+ _modeDefaultValue + ".")
 				.build());
 
@@ -170,7 +170,7 @@ public class Main {
 	}
 
 	private static void parseModeOption(CommandLine line) throws ParseException {
-		String mode = line.getOptionValue("m", _modeDefaultValue.toString());
+		String mode = line.getOptionValue("m", _modeDefaultValue);
 		switch(mode) {
 		case "batch": 
 		case "gui": ; break;

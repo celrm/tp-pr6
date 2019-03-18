@@ -69,13 +69,12 @@ public class Body {
 		s.append("\n\t\t}");
 		return s.toString();
 	}
-//	public JSONObject toObject() {
-//		JSONObject s = new JSONObject();
-//		s.put("id", id);
-//		s.put("mass", m);
-//		s.put("pos", p);
-//		s.put("vel", v);
-//		s.put("acc", a);
-//		return s;
-//	}
+	
+	public boolean equals (Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (this.getClass() != obj.getClass()) return false;
+		Body miclase = (Body) obj;
+		return miclase.id == this.id;
+	}
 }

@@ -42,7 +42,7 @@ public class PhysicsSimulator {
 	public void addBody(Body b) throws IllegalArgumentException {
 		boolean unico = true;
 		for (Body body : cuerpos) {
-			unico = unico && !(body.id.equals(b.id));
+			unico = unico && !(body.equals(b));
 		}
 		if(!unico) throw new IllegalArgumentException("Body " + b.id + " already exists");
 		cuerpos.add(b);
