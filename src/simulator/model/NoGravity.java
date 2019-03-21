@@ -10,6 +10,6 @@ public class NoGravity implements GravityLaws {
 	public void apply(List<Body> bodies) {}
 	
 	public String toString() {
-		return "Descripcion de NoGravity";
+		return "No Gravity (ng)";
 	}
 }

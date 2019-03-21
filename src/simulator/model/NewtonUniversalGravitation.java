@@ -32,6 +32,6 @@ public class NewtonUniversalGravitation implements GravityLaws {
 	}
 
 	public String toString() {
-		return "Descripcion de NewtonUniversalGravitation";
+		return "Newton's law of Universal Gravitation (nlug)";
 	}
 }
