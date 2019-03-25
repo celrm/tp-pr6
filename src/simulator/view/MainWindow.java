@@ -1,6 +1,7 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -18,7 +19,8 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initGUI() {
-		this.setSize(700, 400);
+		this.setSize(600, 400);
+		this.setMinimumSize(new Dimension(600, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // TODO show question
 		this.getContentPane().setLayout(new BorderLayout());
 		

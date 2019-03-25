@@ -1,6 +1,5 @@
 package simulator.view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -16,12 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,24 +32,29 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private Controller _ctrl;
 	private boolean _stopped;
-
-	private String campoDt = "";
-	private int campoS = 0;
+	
+	private JButton load = new JButton();
+	private JButton gl = new JButton();
+	private JButton play = new JButton();
+	private JButton stop = new JButton();
+	private JSpinner selectorPasos = new JSpinner(new SpinnerNumberModel(10000, 0, 50000, 500));
+	private JTextField dt = new JTextField(8);
+	private JButton exit = new JButton();
 	
 	ControlPanel(Controller ctr) { // coche perdido
 		_ctrl = ctr;
 		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
-	} 
+	}
 	
 	private void initGUI() {
+        setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
+        
 		JToolBar barra = new JToolBar();
-		
-		JFileChooser fc = new JFileChooser();		
-		JButton load = new JButton();
-		load.setActionCommand("load");
-		load.setToolTipText("Load a file");	
+        barra.setLayout(new BoxLayout(barra,BoxLayout.LINE_AXIS));
+
+		JFileChooser fc = new JFileChooser();
 		load.setIcon(new ImageIcon("resources/icons/open.png"));	
 		load.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -60,7 +63,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 					_ctrl.reset();
 					try {
 						_ctrl.loadBodies(new FileInputStream(fc.getSelectedFile()));
-						throw new FileNotFoundException();
 					} catch (FileNotFoundException ex) {
 						JOptionPane.showMessageDialog(barra, "File not found", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -73,9 +75,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		});		
 		barra.add(load);
 		
-		JButton gl = new JButton();
-		gl.setActionCommand("gl");
-		gl.setToolTipText("Select a Gravity Law");		
+		barra.addSeparator();
+		
 		gl.setIcon(new ImageIcon("resources/icons/physics.png"));	
 		gl.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -95,33 +96,31 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		});		
 		barra.add(gl);
 		
-		JButton play = new JButton();
-		play.setActionCommand("run");
-		play.setToolTipText("Run Simulation");		
+		barra.addSeparator();
+				
 		play.setIcon(new ImageIcon("resources/icons/run.png"));	
 		play.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-//	        	 load.setEnabled(false);
-//	        	 gl.setEnabled(false);
-//	        	 play.setEnabled(false);
-//	        	 exit.setEnabled(false); ?????
-	        	 
-	        	 _stopped = false;
-	        	 
-	        	 try { _ctrl.setDeltaTime(Integer.parseInt(campoDt)); }
+	        	 try {
+	        		 _ctrl.setDeltaTime(Double.parseDouble(dt.getText()));
+
+		        	 load.setEnabled(false);
+		        	 gl.setEnabled(false);
+		        	 play.setEnabled(false);
+		        	 exit.setEnabled(false); // este hay que bloquearlo?
+		        	 
+		        	 _stopped = false;
+		        	 
+	        		 run_sim((int) selectorPasos.getValue()); // qué error da?
+	        	 }
 	        	 catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(barra, "Not an integer", "Error",
+						JOptionPane.showMessageDialog(barra, "Wrong number", "Error",
 								JOptionPane.ERROR_MESSAGE);
-						}
-	        	 
-	        	 run_sim(campoS);
+	        	 }
 			}
-		});		
+		});
 		barra.add(play);
-		
-		JButton stop = new JButton();
-		stop.setActionCommand("stop");
-		stop.setToolTipText("Stop Simulation");		
+			
 		stop.setIcon(new ImageIcon("resources/icons/stop.png"));	
 		stop.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -130,30 +129,20 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		});		
 		barra.add(stop);
 		
-		JSpinner selectorPasos = new JSpinner(new SpinnerNumberModel(1000, 0, 5000, 500));
-		selectorPasos.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				campoS = (int) selectorPasos.getValue();
-			}
-		});		
-//		selectorPasos.setSize(420, 200);
-		barra.add(new JLabel("Steps:"));
+		barra.add(new JLabel(" Steps: "));
+		selectorPasos.setMinimumSize(new Dimension(100, 30));
+		selectorPasos.setMaximumSize(new Dimension(100, 30));
 		barra.add(selectorPasos);
 		
-		JTextField dt = new JTextField(8);
-		dt.setMaximumSize(new Dimension(150, 60));
-		dt.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {
-	        	 campoDt = dt.getText();
-			}
-		});
-		barra.add(new JLabel("Delta-Time:"));
+		barra.add(new JLabel(" Delta-Time: "));
+		dt.setMinimumSize(new Dimension(100, 30));
+		dt.setMaximumSize(new Dimension(100, 30));
 		barra.add(dt);
+
+		barra.add(Box.createHorizontalGlue()); // Para que el exit esté a la dcha
 		
-		JButton exit = new JButton();
-		exit.setActionCommand("exit");
-		exit.setToolTipText("Exit");		
+		barra.addSeparator();
+				
 		exit.setIcon(new ImageIcon("resources/icons/exit.png"));	
 		exit.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
@@ -161,24 +150,29 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 							"Are sure you want to quit?", "Quit",
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, null, null);
-	        	 
 	        	 if(n==0) System.exit(0);
 	         }
 		});		
 		barra.add(exit);
-		
 	
-		this.add(barra);
+		this.add(barra,BoxLayout.X_AXIS);
 	}
 	
 	private void run_sim(int n) {
-		if (n>0 && !_stopped ) {
+		if (n>0 && !_stopped) {
 			try {
 				_ctrl.run(1);
 			} catch (Exception e) {
-				// TODO show the error in a dialog box
-				// TODO enable all buttons
+				JOptionPane.showMessageDialog(this, "Exception while running simulation:\n" + e.getMessage(), "Error",
+						JOptionPane.ERROR_MESSAGE);
+				
 				_stopped = true;
+				
+				load.setEnabled(true);
+		   	 	gl.setEnabled(true);
+		   	 	play.setEnabled(true);
+		   	 	exit.setEnabled(true);
+		   	 	
 				return;
 			}
 			
@@ -189,22 +183,23 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				}
 			});
 		} else {
-		_stopped = true;
-//		load.setEnabled(true);
-//   	 	gl.setEnabled(true);
-//   	 	play.setEnabled(true); TODO acceder a los botones
-//   	 exit.setEnabled(true); ?????
+			_stopped = true;
+			
+			load.setEnabled(true);
+	   	 	gl.setEnabled(true);
+	   	 	play.setEnabled(true);
+	   	 	exit.setEnabled(true);
 		}
 	}
 
 	@Override
-	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		campoDt = new Double(dt).toString(); //  TODO acceder a los botones
+	public void onRegister(List<Body> bodies, double time, double dti, String gLawsDesc) {
+		dt.setText(new Double(dti).toString());
 	}
 
 	@Override
-	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		campoDt = new Double(dt).toString();
+	public void onReset(List<Body> bodies, double time, double dti, String gLawsDesc) {
+		dt.setText(new Double(dti).toString());
 	}
 
 	@Override
@@ -214,8 +209,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	public void onAdvance(List<Body> bodies, double time) {}
 
 	@Override
-	public void onDeltaTimeChanged(double dt) {
-		campoDt = new Double(dt).toString();
+	public void onDeltaTimeChanged(double dti) {
+		dt.setText(new Double(dti).toString());
 	}
 
 	@Override
