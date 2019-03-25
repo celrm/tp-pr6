@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.swing.Box;
@@ -62,7 +63,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				if (ret == JFileChooser.APPROVE_OPTION) {
 					_ctrl.reset();
 					try {
+<<<<<<< HEAD
 						_ctrl.loadBodies(new FileInputStream(fc.getSelectedFile()));
+=======
+						InputStream in = new FileInputStream(fc.getSelectedFile());
+						_ctrl.loadBodies(in);
+>>>>>>> 25a190c4bd59b076278c2e9ed75fcd5bb004ce5d
 					} catch (FileNotFoundException ex) {
 						JOptionPane.showMessageDialog(barra, "File not found", "Error",
 								JOptionPane.ERROR_MESSAGE);
