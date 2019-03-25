@@ -30,8 +30,6 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	// other private/protected methods
 	// ...
-	// SimulatorObserver methods
-// ...
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
 		// TODO Auto-generated method stub
