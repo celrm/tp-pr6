@@ -60,6 +60,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 					_showHelp = !_showHelp; break;
 				default:
 				}
+				
 				repaint();
 			}
 
@@ -124,8 +125,8 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		_centerY = getHeight() / 2;
 		// TODO draw a cross at center
 		gr.setColor(Color.BLACK);
-		gr.drawLine(_centerX -((int) (getWidth() / 200)), _centerY, _centerX +((int) (getWidth() / 200)), _centerY);
-		gr.drawLine(_centerX, _centerY-((int) (getWidth() / 200)), _centerX, _centerY+((int) (getWidth() / 200)));	
+		gr.drawLine(_centerX -((int) (getHeight() / 70)), _centerY, _centerX +((int) (getHeight() / 70)), _centerY);
+		gr.drawLine(_centerX, _centerY-((int) (getHeight() / 50)), _centerX, _centerY+((int) (getHeight() / 50)));	
 		// TODO draw bodies
 		for (Body b: _bodies){
 			gr.setColor(Color.BLUE);
@@ -171,6 +172,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
+		autoScale();
 		repaint();
 		
 	}
