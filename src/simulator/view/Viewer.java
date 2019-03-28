@@ -133,6 +133,16 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			gr.fillOval(_centerX + (int)(b.getPosition().coordinate(0)/_scale), _centerY - (int)(b.getPosition().coordinate(1)/_scale), 10, 10);
 			gr.drawString(b.getId(), _centerX + (int)(b.getPosition().coordinate(0)/_scale),  _centerY - (int)(b.getPosition().coordinate(1)/_scale));
 		}
+		if (_showHelp){
+			String m = "h: toggle help, +: zoom-in, -:zoom-out, =:fit ";
+			StringBuilder message = new StringBuilder("Scaling ratio: ");
+			message.append(_scale);
+			String s = message.toString();
+			gr.setColor(Color.RED);
+			gr.drawString(m , 10, 25);
+			gr.setColor(Color.RED);
+			gr.drawString(s, 10, 40);
+		}
 
 	}
 
