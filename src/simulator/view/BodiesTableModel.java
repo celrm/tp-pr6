@@ -14,62 +14,61 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 	BodiesTableModel(Controller ctrl) {
 		_bodies = new ArrayList<>();
 		ctrl.addObserver(this);
-	}
+	}	
 	
 	@Override
 	public int getRowCount() {
-		return 0;
-	// TODO complete
+		return _bodies.size();
 	}
 	@Override
 	public int getColumnCount() {
-		return 0;
-	// TODO complete
+		return 5;
 	}
 	@Override
 	public String getColumnName(int column) {
+		switch(column) {
+		case 0: return "Id";
+		case 1: return "Mass";
+		case 2: return "Position";
+		case 3: return "Velocity";
+		case 4: return "Acceleration";
+		}
 		return null;
-	// TODO complete
 	}
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
+		switch(columnIndex) {
+		case 0: return _bodies.get(rowIndex).getId();
+		case 1: return new Double(_bodies.get(rowIndex).getMass()).toString();
+		case 2: return _bodies.get(rowIndex).getPosition();
+		case 3: return _bodies.get(rowIndex).getVelocity();
+		case 4: return _bodies.get(rowIndex).getAcceleration();
+		}
 		return null;
-	// TODO complete
 	}
 	
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		// TODO Auto-generated method stub
-		
+		_bodies = bodies;
+		fireTableStructureChanged();
 	}
-
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		// TODO Auto-generated method stub
-		
+		_bodies = bodies;
+		fireTableStructureChanged();	
 	}
-
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		// TODO Auto-generated method stub
-		
+		_bodies = bodies;
+		fireTableStructureChanged();
 	}
-
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		// TODO Auto-generated method stub
-		
+		_bodies = bodies;
+		fireTableStructureChanged();
 	}
-
 	@Override
-	public void onDeltaTimeChanged(double dt) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void onDeltaTimeChanged(double dt) {}
 	@Override
-	public void onGravityLawChanged(String gLawsDesc) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onGravityLawChanged(String gLawsDesc) {}
 }

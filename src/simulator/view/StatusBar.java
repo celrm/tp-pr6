@@ -1,9 +1,11 @@
 package simulator.view;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,7 +27,8 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	}
 	
 	private void initGUI() {
-		this.setLayout( new FlowLayout( FlowLayout.LEFT ));
+//		this.setLayout( new FlowLayout( FlowLayout.LEFT ));
+        setLayout(new BoxLayout(this,BoxLayout.LINE_AXIS));
 		this.setBorder( BorderFactory.createBevelBorder( 1 ));
         
 		JToolBar barra = new JToolBar();
@@ -33,12 +36,16 @@ public class StatusBar extends JPanel implements SimulatorObserver {
         
         barra.add(new JLabel("Time: "));
         barra.add(_currTime);
-        barra.addSeparator(); // TODO separadores más amplios?
+        barra.addSeparator(new Dimension(30,30)); // no me gusta pq cuando el texto cambia de tamaño se cambia todo
         barra.add(new JLabel("Bodies: "));
         barra.add(_numOfBodies);
-        barra.addSeparator();
+        barra.addSeparator(new Dimension(30,30));
         barra.add(new JLabel("Laws: ")); // TODO no entiendo por qué hay dos descripciones de leyes distintas:
         barra.add(_currLaws);			// una en la propia ley y otra en el JSON
+
+		barra.add(Box.createHorizontalGlue()); // Para que el exit esté a la dcha
+
+        barra.addSeparator();
     	
 		this.add(barra,BoxLayout.X_AXIS);
 	}
