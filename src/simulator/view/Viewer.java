@@ -131,7 +131,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		for (Body b: _bodies){
 			gr.setColor(Color.BLUE);
 			gr.fillOval(_centerX + (int)(b.getPosition().coordinate(0)/_scale), _centerY - (int)(b.getPosition().coordinate(1)/_scale), 10, 10);
-			gr.drawString(b.getId(), _centerX + (int)(b.getPosition().coordinate(0)/_scale),  _centerY - (int)(b.getPosition().coordinate(1)/_scale));
+			gr.drawString(b.getId(), _centerX + (int)(b.getPosition().coordinate(0)/_scale)-2,  _centerY - (int)(b.getPosition().coordinate(1)/_scale)-5);
 		}
 		if (_showHelp){
 			String m = "h: toggle help, +: zoom-in, -:zoom-out, =:fit ";
