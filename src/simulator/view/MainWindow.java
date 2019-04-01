@@ -1,11 +1,13 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
@@ -37,7 +39,8 @@ public class MainWindow extends JFrame {
 		JComponent view = new Viewer(_ctrl);	
 		
 		// Añade la tabla de cuerpos y el viewer en este panel.
-		centro.add(tabla); 
+		centro.add(tabla);
+		
 		centro.add(view);
 		
 		this.getContentPane().add(centro, BorderLayout.CENTER);

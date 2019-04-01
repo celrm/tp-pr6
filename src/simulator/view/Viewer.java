@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
@@ -37,15 +39,14 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(
-		BorderFactory.createLineBorder(Color.black, 2),
-		"Viewer",
-		TitledBorder.LEFT, TitledBorder.TOP));
+				BorderFactory.createLineBorder(Color.black, 2),
+				"Viewer", TitledBorder.LEFT, TitledBorder.TOP));
 		this.setSize(200,200);
+
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
 		addKeyListener(new KeyListener() {
-			// ...
 			@Override
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyChar()) {
@@ -58,54 +59,28 @@ public class Viewer extends JComponent implements SimulatorObserver {
 				case 'h':
 					_showHelp = !_showHelp; break;
 				default:
-				}
-				
+				}				
 				repaint();
 			}
-
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void keyReleased(KeyEvent arg0) {}
 			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyTyped(KeyEvent arg0) {}
 		});
 		
 		addMouseListener(new MouseListener() {
-			// ...
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				requestFocus();
 			}
-
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseClicked(MouseEvent arg0) {}
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mouseExited(MouseEvent arg0) {}
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void mousePressed(MouseEvent arg0) {}
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseReleased(MouseEvent arg0) {}
 		});
 		
 	}
@@ -118,6 +93,11 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		RenderingHints.VALUE_ANTIALIAS_ON);
 		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 		RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		gr.setColor(Color.WHITE);
+		Rectangle rec = getVisibleRect();
+		rec.setBounds(5, 7, getWidth()-10, getHeight()-12);
+		gr.fill(rec);
 		
 		// use 'gr' to draw not 'g'
 		// calculate the center
