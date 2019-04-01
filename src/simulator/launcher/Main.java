@@ -263,14 +263,15 @@ public class Main {
 			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
 			Controller cont = new Controller(sim, _bodyFactory, _gravityLawsFactory);
 			
-			if(_inFile != null) cont.loadBodies(new FileInputStream(new File(_inFile)));
 			
+			if(_inFile != null) cont.loadBodies(new FileInputStream(new File(_inFile)));
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() {
 					new MainWindow(cont);
 				}
 			});
+
 			
 		} catch (IllegalArgumentException e){
 			System.err.println("Illegal argument: " + e.getMessage());

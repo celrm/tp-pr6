@@ -40,8 +40,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Viewer",
 		TitledBorder.LEFT, TitledBorder.TOP));
-		
-		
+		this.setSize(200,200);
 		_bodies = new ArrayList<>();
 		_scale = 1.0;
 		_showHelp = true;
@@ -108,6 +107,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 				
 			}
 		});
+		
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		RenderingHints.VALUE_ANTIALIAS_ON);
 		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 		RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+		
 		// use 'gr' to draw not 'g'
 		// calculate the center
 		_centerX = getWidth() / 2;
@@ -182,7 +182,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		autoScale();
+		//autoScale();
 		repaint();
 		
 	}
