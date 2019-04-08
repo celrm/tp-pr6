@@ -10,6 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import simulator.control.Controller;
 import simulator.model.Body;
@@ -52,30 +53,54 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		_currTime.setText(new Double(time).toString());
-		_numOfBodies.setText(new Integer(bodies.size()).toString());
-		_currLaws.setText(gLawsDesc);
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText(new Double(time).toString());
+				_numOfBodies.setText(new Integer(bodies.size()).toString());
+				_currLaws.setText(gLawsDesc);
+			}
+		});
 	}
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		_currTime.setText(new Double(time).toString());
-		_numOfBodies.setText(new Integer(bodies.size()).toString());
-		_currLaws.setText(gLawsDesc);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText(new Double(time).toString());
+				_numOfBodies.setText(new Integer(bodies.size()).toString());
+				_currLaws.setText(gLawsDesc);
+			}
+		});
 	}
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		_numOfBodies.setText(new Integer(bodies.size()).toString());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_numOfBodies.setText(new Integer(bodies.size()).toString());
+			}
+		});
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		_currTime.setText(new Double(time).toString());
-		_numOfBodies.setText(new Integer(bodies.size()).toString());		
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_currTime.setText(new Double(time).toString());
+				_numOfBodies.setText(new Integer(bodies.size()).toString());
+			}
+		});	
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {}
 	@Override
 	public void onGravityLawChanged(String gLawsDesc) {
-		_currLaws.setText(gLawsDesc);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_currLaws.setText(gLawsDesc);
+			}
+		});
 	}
 }

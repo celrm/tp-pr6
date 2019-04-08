@@ -3,6 +3,7 @@ package simulator.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import simulator.control.Controller;
@@ -49,23 +50,43 @@ public class BodiesTableModel extends AbstractTableModel implements SimulatorObs
 	
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		_bodies = bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_bodies = bodies;
+				fireTableStructureChanged();
+			}
+		});
 	}
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String gLawsDesc) {
-		_bodies = bodies;
-		fireTableStructureChanged();	
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_bodies = bodies;
+				fireTableStructureChanged();
+			}
+		});
 	}
 	@Override
 	public void onBodyAdded(List<Body> bodies, Body b) {
-		_bodies = bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_bodies = bodies;
+				fireTableStructureChanged();
+			}
+		});
 	}
 	@Override
 	public void onAdvance(List<Body> bodies, double time) {
-		_bodies = bodies;
-		fireTableStructureChanged();
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_bodies = bodies;
+				fireTableStructureChanged();
+			}
+		});
 	}
 	@Override
 	public void onDeltaTimeChanged(double dt) {}

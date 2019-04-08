@@ -194,12 +194,22 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dti, String gLawsDesc) {
-		dt.setText(new Double(dti).toString());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				dt.setText(new Double(dti).toString());
+			}
+		});
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dti, String gLawsDesc) {
-		dt.setText(new Double(dti).toString());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				dt.setText(new Double(dti).toString());
+			}
+		});
 	}
 
 	@Override
@@ -210,7 +220,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onDeltaTimeChanged(double dti) {
-		dt.setText(new Double(dti).toString());
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				dt.setText(new Double(dti).toString());
+			}
+		});
 	}
 
 	@Override
