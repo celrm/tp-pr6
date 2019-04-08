@@ -34,10 +34,27 @@ public class StatusBar extends JPanel implements SimulatorObserver {
         
 		JToolBar barra = new JToolBar();
         barra.setLayout(new BoxLayout(barra,BoxLayout.LINE_AXIS));
+        barra.setFloatable(false); // Para que no se pueda sacar
+//        barra.setUI(null);
+
+        // Para que no tiemble        
+        _currTime.setMinimumSize(new Dimension(70,20));
+        _currTime.setMaximumSize(new Dimension(70,20));
+        _currTime.setPreferredSize(new Dimension(70,20));
+
+        _numOfBodies.setMinimumSize(new Dimension(15,20));
+        _numOfBodies.setMaximumSize(new Dimension(15,20));
+        _numOfBodies.setPreferredSize(new Dimension(15,20));
+
+
+        _currLaws.setMinimumSize(new Dimension(300,20));
+        _currLaws.setMaximumSize(new Dimension(300,20));
+        _currLaws.setPreferredSize(new Dimension(300,20));
         
-        barra.add(new JLabel("Time: "));
+        
+        barra.add(new JLabel(" Time: "));
         barra.add(_currTime);
-        barra.addSeparator(new Dimension(30,30)); // no me gusta pq cuando el texto cambia de tamaño se cambia todo
+        barra.addSeparator(new Dimension(30,30));
         barra.add(new JLabel("Bodies: "));
         barra.add(_numOfBodies);
         barra.addSeparator(new Dimension(30,30));
