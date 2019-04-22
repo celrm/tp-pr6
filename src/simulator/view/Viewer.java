@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
@@ -104,15 +103,17 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		// calculate the center
 		_centerX = getWidth() / 2;
 		_centerY = getHeight() / 2;
-		// TODO draw a cross at center
+		
+		// draw a cross at center
 		gr.setColor(Color.BLACK);
-		gr.drawLine(_centerX -((int) (getHeight() / 70)), _centerY, _centerX +((int) (getHeight() / 70)), _centerY);
-		gr.drawLine(_centerX, _centerY-((int) (getHeight() / 70)), _centerX, _centerY+((int) (getHeight() / 70)));	
-		// TODO draw bodies
+		gr.drawLine(-3+_centerX -((int) (getHeight() / 70)), _centerY, 3+_centerX +((int) (getHeight() / 70)), _centerY);
+		gr.drawLine(_centerX, -3+_centerY-((int) (getHeight() / 70)), _centerX,3+ _centerY+((int) (getHeight() / 70)));
+		
+		// draw bodies
 		for (Body b: _bodies){
 			gr.setColor(Color.BLUE);
-			gr.fillOval(_centerX + (int)(b.getPosition().coordinate(0)/_scale), _centerY - (int)(b.getPosition().coordinate(1)/_scale), 10, 10);
-			gr.drawString(b.getId(), _centerX + (int)(b.getPosition().coordinate(0)/_scale)-2,  _centerY - (int)(b.getPosition().coordinate(1)/_scale)-5);
+			gr.fillOval(-5+_centerX + (int)(b.getPosition().coordinate(0)/_scale), -5+_centerY - (int)(b.getPosition().coordinate(1)/_scale), 10, 10);
+			gr.drawString(b.getId(), -8+_centerX + (int)(b.getPosition().coordinate(0)/_scale),  -10+_centerY - (int)(b.getPosition().coordinate(1)/_scale));
 		}
 		if (_showHelp){
 			String m = "h: toggle help, +: zoom-in, -:zoom-out, =:fit ";
@@ -179,7 +180,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 			@Override
 			public void run() {
 				_bodies = bodies;
-//				autoScale();
+//				autoScale(); // Lo quitamos para que los botones sean efectivos
 				repaint();
 			}
 		});

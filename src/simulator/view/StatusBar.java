@@ -1,7 +1,6 @@
 package simulator.view;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -35,7 +34,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		JToolBar barra = new JToolBar();
         barra.setLayout(new BoxLayout(barra,BoxLayout.LINE_AXIS));
         barra.setFloatable(false); // Para que no se pueda sacar
-//        barra.setUI(null);
+//      barra.setUI(null);
 
         // Para que no tiemble        
         _currTime.setMinimumSize(new Dimension(70,20));
@@ -58,10 +57,10 @@ public class StatusBar extends JPanel implements SimulatorObserver {
         barra.add(new JLabel("Bodies: "));
         barra.add(_numOfBodies);
         barra.addSeparator(new Dimension(30,30));
-        barra.add(new JLabel("Laws: ")); // TODO no entiendo por qué hay dos descripciones de leyes distintas:
-        barra.add(_currLaws);			// una en la propia ley y otra en el JSON
+        barra.add(new JLabel("Laws: "));
+        barra.add(_currLaws);
 
-		barra.add(Box.createHorizontalGlue()); // Para que el exit esté a la dcha
+		barra.add(Box.createHorizontalGlue());
 
         barra.addSeparator();
     	

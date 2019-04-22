@@ -41,7 +41,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JTextField dt = new JTextField(8);
 	private JButton exit = new JButton();
 	
-	ControlPanel(Controller ctr) { // coche perdido
+	ControlPanel(Controller ctr) {
 		_ctrl = ctr;
 		_stopped = true;
 		initGUI();
@@ -82,7 +82,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	         public void actionPerformed(ActionEvent e) {
 	        	 List<JSONObject> opciones = _ctrl.getGravityLawsFactory().getInfo();
 	        	 String[] ops = new String[opciones.size()];
-	        	 for(int i = 0; i < opciones.size(); ++i) {			// DUDA esto es horrible
+	        	 for(int i = 0; i < opciones.size(); ++i) {
 	        		 ops[i] = opciones.get(i).getString("desc");
 	        	 }
 					String res = (String) JOptionPane.showInputDialog(
@@ -107,11 +107,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		        	 load.setEnabled(false);
 		        	 gl.setEnabled(false);
 		        	 play.setEnabled(false);
-		        	 exit.setEnabled(false); // este hay que bloquearlo?
+		        	 exit.setEnabled(false);
 		        	 
 		        	 _stopped = false;
 		        	 
-	        		 run_sim((int) selectorPasos.getValue()); // qué error da?
+	        		 run_sim((int) selectorPasos.getValue());
 	        	 }
 	        	 catch(NumberFormatException ex) {
 						JOptionPane.showMessageDialog(barra, "Wrong number", "Error",
@@ -139,7 +139,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		dt.setMaximumSize(new Dimension(100, 30));
 		barra.add(dt);
 
-		barra.add(Box.createHorizontalGlue()); // Para que el exit esté a la dcha
+		barra.add(Box.createHorizontalGlue()); // Para que el exit esté a la derecha
 		
 		barra.addSeparator();
 				

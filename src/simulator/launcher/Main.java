@@ -84,11 +84,11 @@ public class Main {
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine line = parser.parse(cmdLineOptions, args);
-			parseModeOption(line); // Celia (importante antes que infile)
+			parseModeOption(line); // importante antes que infile
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
-			parseOutFileOption(line); // Celia
-			parseStepsOption(line); // Celia
+			parseOutFileOption(line);
+			parseStepsOption(line);
 			parseDeltaTimeOption(line);
 			parseGravityLawsOption(line);
 
@@ -129,13 +129,13 @@ public class Main {
 				.desc("Bodies JSON input file.")
 				.build());
 
-		// output file // Celia
+		// output file
 		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg()
 				.desc("Output file, where output is written. Default value: "
 						+ "the standard output.")
 				.build());
 		
-		// steps // Celia
+		// steps
 		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg()
 				.desc("An integer representing the number of simulation steps. Default value: "
 						+ _stepsDefaultValue + ".")
@@ -258,7 +258,6 @@ public class Main {
 
 	private static void startGUIMode() throws Exception {
 		// create and connect components, then start the simulator
-//		OutputStream os = _outFile == null ? System.out : new FileOutputStream(new File(_outFile));
 		try {
 			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
 			Controller cont = new Controller(sim, _bodyFactory, _gravityLawsFactory);

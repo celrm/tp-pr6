@@ -10,7 +10,7 @@ public class Body {
 	protected double m;
 	
 	public Body(String id, Vector v, Vector a, Vector p, double m) {
-		this.id = id; //inmutable no ?
+		this.id = id;
 		this.v = new Vector(v);
 		this.a = new Vector(a);
 		this.p = new Vector(p);
@@ -48,6 +48,7 @@ public class Body {
 //	void setPosition(Vector p) {
 //		this.p = new Vector(p);
 //	} // hace una copia de p y se la asigna al vector de posición.
+//  No se necesita en ningún momento
 	
 	void move(double t) {
 		p = p.plus(v.scale(t).plus(a.scale(t*t/2.0)));

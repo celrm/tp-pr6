@@ -75,7 +75,7 @@ public class PhysicsSimulator {
 		}
 	}
 	public void setDeltaTime(double tt) throws IllegalArgumentException {
-		if (tt <= 0.0) throw new IllegalArgumentException("dt no valido"); // mas preguntas
+		if (tt <= 0.0) throw new IllegalArgumentException("dt no valido");
 		dt = tt;
 		
 		for(SimulatorObserver o : observers) {

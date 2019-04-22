@@ -1,13 +1,11 @@
 package simulator.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import simulator.control.Controller;
@@ -23,7 +21,7 @@ public class MainWindow extends JFrame {
 	private void initGUI() {
 		this.setSize(600, 400);
 		this.setMinimumSize(new Dimension(600, 400));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // TODO show question
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		JPanel pancontrol = new ControlPanel(_ctrl);
@@ -46,10 +44,6 @@ public class MainWindow extends JFrame {
 		this.getContentPane().add(centro, BorderLayout.CENTER);
 		
 		this.setVisible(true);
-		
-//		TODO
-//		Para controlar el tamaño inicial de cada componente puedes usar el método setPrefe-
-//		rredSize. También necesitarás hacer visible la ventana, etc.
 		
 	}
 }

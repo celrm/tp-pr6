@@ -22,10 +22,5 @@ public class MassLosingBody extends Body {
 			c = 0.0;
 			m = m*(1-lossFactor);
 		}
-
-//		while(c >= lossFrequency) {
-//			c -= lossFrequency;
-//			m = m*(1-lossFactor);
-//		}
-	} // TODO convencer de que está mal
+	}
 }
