@@ -19,7 +19,7 @@ public class MainWindow extends JFrame {
 	}
 	
 	private void initGUI() {
-		this.setSize(600, 400);
+		this.setSize(750, 400);
 		this.setMinimumSize(new Dimension(600, 400));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout());

@@ -31,19 +31,21 @@ import simulator.model.SimulatorObserver;
 public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 	private Controller _ctrl;
-	private boolean _stopped;
 	
 	private JButton load = new JButton();
 	private JButton gl = new JButton();
 	private JButton play = new JButton();
 	private JButton stop = new JButton();
+	private JSpinner selectorDelay = new JSpinner(new SpinnerNumberModel(1L, 0L, 1000L, 1L));
 	private JSpinner selectorPasos = new JSpinner(new SpinnerNumberModel(10000, 0, 50000, 500));
 	private JTextField dt = new JTextField(8);
 	private JButton exit = new JButton();
+//	Añade en la clase ControlPanel un nuevo atributo llamado _thread del tipo
+//	java.util.Thread, y hazlo volatile ya que será modificado desde distintos hilos.
+	private volatile Thread _thread;
 	
 	ControlPanel(Controller ctr) {
 		_ctrl = ctr;
-		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
 	}
@@ -101,33 +103,52 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		play.setIcon(new ImageIcon("resources/icons/run.png"));	
 		play.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 try {
-	        		 _ctrl.setDeltaTime(Double.parseDouble(dt.getText()));
+	        	_ctrl.setDeltaTime(Double.parseDouble(dt.getText()));
 
-		        	 load.setEnabled(false);
-		        	 gl.setEnabled(false);
-		        	 play.setEnabled(false);
-		        	 exit.setEnabled(false);
-		        	 
-		        	 _stopped = false;
-		        	 
-	        		 run_sim((int) selectorPasos.getValue());
-	        	 }
-	        	 catch(NumberFormatException ex) {
-						JOptionPane.showMessageDialog(barra, "Wrong number", "Error",
-								JOptionPane.ERROR_MESSAGE);
-	        	 }
-			}
+		        load.setEnabled(false);
+		        gl.setEnabled(false);
+		        play.setEnabled(false);
+		        exit.setEnabled(false);
+		        
+		        _thread = new Thread(new Runnable() {
+		        	@Override
+		        	public void run() {
+//						(1) llama a run_sim con el número de pasos y el delay especificados en los 
+//						correspondientes componentes JSpinner; 
+						try {
+				        	run_sim((int) selectorPasos.getValue(), (long) selectorDelay.getValue());				
+						}
+						catch(Exception ex) {
+							JOptionPane.showMessageDialog(play, "Wrong number:\n" + ex.getMessage(), "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}			
+//						(2) habilita todos los botones, es decir, cuando termine la llamada a run_sim; y 			 				
+			 			load.setEnabled(true);
+			 		 	gl.setEnabled(true);
+			 		 	play.setEnabled(true);
+			 		 	exit.setEnabled(true);
+//						(3) establece el atributo _thread a null.
+			 		   	_thread = null;
+					}		        		 
+		        });
+		        _thread.start();
+	        }
 		});
 		barra.add(play);
 			
 		stop.setIcon(new ImageIcon("resources/icons/stop.png"));	
 		stop.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	 _stopped = true;
+	        	 if(_thread != null)
+	        		 _thread.interrupt();
 	         }
 		});		
 		barra.add(stop);
+		
+		barra.add(new JLabel(" Delay: "));
+		selectorDelay.setMinimumSize(new Dimension(100, 30));
+		selectorDelay.setMaximumSize(new Dimension(100, 30));
+		barra.add(selectorDelay);
 		
 		barra.add(new JLabel(" Steps: "));
 		selectorPasos.setMinimumSize(new Dimension(100, 30));
@@ -158,37 +179,32 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		this.add(barra,BoxLayout.X_AXIS);
 	}
 	
-	private void run_sim(int n) {
-		if (n>0 && !_stopped) {
+	private void run_sim(int n, long delay) {
+		while (n>0 && (!Thread.currentThread().isInterrupted()) ) {
+			// 1. execute the simulator one step, i.e., call method
+			// _ctrl.run(1) and handle exceptions if any
 			try {
 				_ctrl.run(1);
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(this, "Exception while running simulation:\n" + e.getMessage(), "Error",
-						JOptionPane.ERROR_MESSAGE);
-				
-				_stopped = true;
-				
-				load.setEnabled(true);
-		   	 	gl.setEnabled(true);
-		   	 	play.setEnabled(true);
-		   	 	exit.setEnabled(true);
-		   	 	
+				SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						JOptionPane.showMessageDialog(play, "Exception while running simulation:\n" + e.getMessage(), "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				});		   	 	
 				return;
 			}
-			
-			SwingUtilities.invokeLater( new Runnable() {
-				@Override
-				public void run() {
-					run_sim(n-1);
-				}
-			});
-		} else {
-			_stopped = true;
-			
-			load.setEnabled(true);
-	   	 	gl.setEnabled(true);
-	   	 	play.setEnabled(true);
-	   	 	exit.setEnabled(true);
+			// 2. sleep the current thread for ’delay’ milliseconds
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+//				Por lo tanto, en tal caso, se debe interrumpir nuevamente
+//				el hilo actual al capturar la excepción correspondiente para salir del bucle (o simplemente
+//				salir del método con return).
+				return;
+			}
+			n--;
 		}
 	}
 
