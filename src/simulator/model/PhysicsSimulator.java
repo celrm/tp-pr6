@@ -1,6 +1,7 @@
 package simulator.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class PhysicsSimulator {
@@ -25,7 +26,7 @@ public class PhysicsSimulator {
 	
 	public void addObserver(SimulatorObserver o) {
 		if(!observers.contains(o)) observers.add(o);
-		o.onRegister(cuerpos, time, dt, ley.toString());
+		o.onRegister(Collections.unmodifiableList(cuerpos), time, dt, ley.toString());
 	}
 	
 	public void advance() {
@@ -36,7 +37,7 @@ public class PhysicsSimulator {
 		time += dt;
 		
 		for(SimulatorObserver o : observers) {
-			o.onAdvance(cuerpos, time);
+			o.onAdvance(Collections.unmodifiableList(cuerpos), time);
 		}
 	}
 	public void addBody(Body b) throws IllegalArgumentException {
@@ -48,7 +49,7 @@ public class PhysicsSimulator {
 		cuerpos.add(b);
 		
 		for(SimulatorObserver o : observers) {
-			o.onBodyAdded(cuerpos, b);
+			o.onBodyAdded(Collections.unmodifiableList(cuerpos), b);
 		}
 	}
 	public String toString() {
@@ -71,7 +72,7 @@ public class PhysicsSimulator {
 		time = 0.0;
 		
 		for(SimulatorObserver o : observers) {
-			o.onReset(cuerpos, time, dt, ley.toString());
+			o.onReset(Collections.unmodifiableList(cuerpos), time, dt, ley.toString());
 		}
 	}
 	public void setDeltaTime(double tt) throws IllegalArgumentException {
