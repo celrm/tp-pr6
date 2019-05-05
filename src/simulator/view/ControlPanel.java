@@ -103,7 +103,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		play.setIcon(new ImageIcon("resources/icons/run.png"));	
 		play.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
-	        	_ctrl.setDeltaTime(Double.parseDouble(dt.getText()));
+	        	 try {
+	        		 _ctrl.setDeltaTime(Double.parseDouble(dt.getText()));
+	        	 } catch (Exception ex) {
+						JOptionPane.showMessageDialog(play, "Wrong number:\n" + ex.getMessage(), "Error",
+								JOptionPane.ERROR_MESSAGE);	        		 
+	        	 }
 
 		        load.setEnabled(false);
 		        gl.setEnabled(false);
@@ -186,6 +191,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			try {
 				_ctrl.run(1);
 			} catch (Exception e) {
+//				Lo mismo se debe hacer cuando mostramos mensajes de error en el método run_sim
+//				Esto es necesario ya que ahora se ejecuta en un hilo distinto al hilo de Swing. 
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
