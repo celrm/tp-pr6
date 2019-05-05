@@ -36,7 +36,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton gl = new JButton();
 	private JButton play = new JButton();
 	private JButton stop = new JButton();
-	private JSpinner selectorDelay = new JSpinner(new SpinnerNumberModel(1L, 0L, 1000L, 1L));
+	private JSpinner selectorDelay = new JSpinner(new SpinnerNumberModel(1, 0, 1000, 1));
 	private JSpinner selectorPasos = new JSpinner(new SpinnerNumberModel(10000, 0, 50000, 500));
 	private JTextField dt = new JTextField(8);
 	private JButton exit = new JButton();
@@ -116,7 +116,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 //						(1) llama a run_sim con el número de pasos y el delay especificados en los 
 //						correspondientes componentes JSpinner; 
 						try {
-				        	run_sim((int) selectorPasos.getValue(), (long) selectorDelay.getValue());				
+				        	run_sim((int) selectorPasos.getValue(), new Long(selectorDelay.getValue().toString()));				
 						}
 						catch(Exception ex) {
 							JOptionPane.showMessageDialog(play, "Wrong number:\n" + ex.getMessage(), "Error",
@@ -192,7 +192,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						JOptionPane.showMessageDialog(play, "Exception while running simulation:\n" + e.getMessage(), "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
-				});		   	 	
+				});
 				return;
 			}
 			// 2. sleep the current thread for ’delay’ milliseconds
