@@ -12,15 +12,15 @@ import javax.swing.border.TitledBorder;
 
 import simulator.control.Controller;
 
-public class BodiesTable extends JPanel {
-	BodiesTable(Controller ctrl) {
+public class VelTable extends JPanel {
+	VelTable(Controller ctrl) {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Bodies",
 		TitledBorder.LEFT, TitledBorder.TOP));
 		
-		BodiesTableModel model = new BodiesTableModel(ctrl); 	// (1) creando una instancia de BodiesTableModel que se le pase a la JTable;
+		VelTableModel model = new VelTableModel(ctrl); 	// (1) creando una instancia de BodiesTableModel que se le pase a la JTable;
 		JTable tabla = new JTable(model);
 		
 		JScrollPane area = new JScrollPane(tabla);		// (2) añadiendo la JTable al panel (es decir, a this) con un JScrollPane.

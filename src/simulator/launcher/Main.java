@@ -42,6 +42,7 @@ import simulator.model.Body;
 import simulator.model.GravityLaws;
 import simulator.model.PhysicsSimulator;
 import simulator.view.MainWindow;
+import simulator.view.Traza;
 
 public class Main {
 
@@ -247,9 +248,10 @@ public class Main {
 		try {
 			PhysicsSimulator sim = new PhysicsSimulator(_dtime, _gravityLawsFactory.createInstance(_gravityLawsInfo));
 			Controller cont = new Controller(sim, _bodyFactory, _gravityLawsFactory);
-		
+			Traza t = new Traza(cont);
 			cont.loadBodies(is);
 			cont.run(_steps, os);
+			t.printHistory();
 		} catch (IllegalArgumentException e){
 			System.err.println("Illegal argument: " + e.getMessage());
 		}

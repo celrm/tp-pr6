@@ -32,12 +32,14 @@ public class MainWindow extends JFrame {
 
 		JPanel centro = new JPanel();
 		centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS)); // (3) crea un nuevo panel que use BoxLayout (y BoxLayout.Y_AXIS) y colócalo en el CENTER de mainPanel. 
-		
+
 		JPanel tabla = new BodiesTable(_ctrl);
+		JPanel tabla2 = new VelTable(_ctrl);
 		JComponent view = new Viewer(_ctrl);	
 		
 		// Añade la tabla de cuerpos y el viewer en este panel.
 		centro.add(tabla);
+		centro.add(tabla2);
 		
 		centro.add(view);
 		
